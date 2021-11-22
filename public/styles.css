@@ -15,7 +15,7 @@ th {
   word-wrap: break-word;
 }
 
-tr:nth-child(even) {
+tr th {
   background-color: #dddddd;
 }
 
