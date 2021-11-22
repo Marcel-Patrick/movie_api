@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Documentation</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="styles.css">
   </head>
 
   <body>
@@ -15,5 +16,213 @@
       movies, directors, and genres. Users will be able to sign up, update their
       personal information, and create a list of their favorite movies.
     </p>
+
+    <h2>the REST API must do the following:</h2>
+    <p>
+      <ul>
+        <li>Return a list of ALL movies to the user</li>
+        <table>
+          <tr>
+              <th>BUSINESS LOGIC</th>
+              <th>URL</th>
+              <th>HTTP METHDOD</th>
+              <th>REQUEST BODY DATA FORMAT</th>
+              <th>RESPONSE BODY DATA FORMAT</th>
+          </tr>
+          <tr>
+              <td>Return a list of ALL movies to the user</td>
+              <td>/movies</td>
+              <td>GET</td>
+              <td>None</td>
+              <td>A JSON array holding data about all movies</td>
+          </tr>
+        </table>
+  
+        <li>Return data (description, genre, director, image URL, whether it’s featured or not) about a single movie by title to the user</li>
+        <table>
+          <tr>
+              <th>BUSINESS LOGIC</th>
+              <th>URL</th>
+              <th>HTTP METHDOD</th>
+              <th>REQUEST BODY DATA FORMAT</th>
+              <th>RESPONSE BODY DATA FORMAT</th>
+          </tr>
+          <tr>
+              <td>Return data (description, genre, director, image URL, whether it’s featured or not) about a single movie by title to the user</td>
+              <td>/movies/[title]</td>
+              <td>GET</td>
+              <td>None</td>
+              <td>A JSON object holding data about a single movie,
+                containing an ID, title, genre, director, image URL 
+                and releas property. <br>
+                Example: <br>
+                {<br>
+                    ID: "" "",<br>
+                    title: ""The Godfather"",<br>
+                    genre: [""Crime"", ""Drama""],<br>
+                    director: {<br>
+                      name: ""Francis Ford Coppola"",<br>
+                      bio: ""Francis Ford Coppola was born in 1939 in Detroit"",<br>
+                      birthYear: 1939,<br>
+                      deathYear: ""still alive"",<br>
+                    },<br>
+                    imgURL: ""https://www.imdb.com/title/tt0068646/mediaviewer/rm746868224/"",<br>
+                    released: 1972,<br>
+                },</td>
+          </tr>
+        </table>
+
+        <li>Return data about a genre (description) by name/title (e.g., “Thriller”)</li>
+        <table>
+          <tr>
+              <th>BUSINESS LOGIC</th>
+              <th>URL</th>
+              <th>HTTP METHDOD</th>
+              <th>REQUEST BODY DATA FORMAT</th>
+              <th>RESPONSE BODY DATA FORMAT</th>
+          </tr>
+          <tr>
+              <td>Return data about a genre (description) by name/title (e.g., “Thriller”)</td>
+              <td>/movies/[title]/genre</td>
+              <td>GET</td>
+              <td>None</td>
+              <td>A JSON object holding data about the genre proper 
+                of the moviety.<br>
+                Example:<br>
+                {<br>
+                    genre: ["Crime", "Drama"],<br>
+                },</td>
+          </tr>
+        </table>
+
+        <li>Return data about a director (bio, birth year, death year) by name</li>
+        <table>
+          <tr>
+              <th>BUSINESS LOGIC</th>
+              <th>URL</th>
+              <th>HTTP METHDOD</th>
+              <th>REQUEST BODY DATA FORMAT</th>
+              <th>RESPONSE BODY DATA FORMAT</th>
+          </tr>
+          <tr>
+              <td>Return data about a director (bio, birth year, death year) by name</td>
+              <td>/movies/[title]/director</td>
+              <td>GET</td>
+              <td>None</td>
+              <td>A JSON object holding data about the director 
+                proper of the moviety.<br>
+                Example:<br>
+                {<br>
+                    director: {<br>
+                      name: ""Francis Ford Coppola"",<br>
+                      bio: ""Francis Ford Coppola was born in 1939 in Detroit"",<br>
+                      birthYear: 1939,<br>
+                      deathYear: ""still alive"",<br>
+                    },<br>
+                },"</td>
+          </tr>
+        </table>
+
+        <li>Allow new users to register</li>
+        <table>
+          <tr>
+              <th>BUSINESS LOGIC</th>
+              <th>URL</th>
+              <th>HTTP METHDOD</th>
+              <th>REQUEST BODY DATA FORMAT</th>
+              <th>RESPONSE BODY DATA FORMAT</th>
+          </tr>
+          <tr>
+              <td>Allow new users to register</td>
+              <td>/registration</td>
+              <td>POST</td>
+              <td>"A JSON object holding data about a new user to add, structured like: <br>
+                { unserName: ""Paulina Gomez"",<br>
+                 password: ""123Password!"", <br>
+                }"</td>
+              <td>"A JSON object holding data about the student that was
+                added, including an ID:<br>
+                
+                { <br>
+                userID: 5,<br>
+                unserName: ""Paulina Gomez"",<br>
+                password: ""123Password!"",<br>
+                }<br>"</td>
+          </tr>
+        </table>
+
+        <li>Allow users to update their user info (username)</li>
+        <table>
+          <tr>
+              <th>BUSINESS LOGIC</th>
+              <th>URL</th>
+              <th>HTTP METHDOD</th>
+              <th>REQUEST BODY DATA FORMAT</th>
+              <th>RESPONSE BODY DATA FORMAT</th>
+          </tr>
+          <tr>
+              <td>Allow users to update their user info (username)</td>
+              <td>/log_in/[userID]/[userName]</td>
+              <td>PUT</td>
+              <td>None</td>
+              <td>A text message indicating the user and userName that was updated</td>
+          </tr>
+        </table>
+
+        <li>Allow users to add a movie to their list of favorites (showing only a text that a movie has been added—more on this later)</li>
+        <table>
+          <tr>
+              <th>BUSINESS LOGIC</th>
+              <th>URL</th>
+              <th>HTTP METHDOD</th>
+              <th>REQUEST BODY DATA FORMAT</th>
+              <th>RESPONSE BODY DATA FORMAT</th>
+          </tr>
+          <tr>
+              <td>Allow users to add a movie to their list of favorites (showing only a text that a movie has been added—more on this later)</td>
+              <td>/log_in/[userID]/movies/favoritList/[title]</td>
+              <td>PATCH</td>
+              <td>None</td>
+              <td>A text message indicating the title of the movie that was added</td>
+          </tr>
+        </table>
+
+        <li>Allow users to remove a movie from their list of favorites (showing only a text that a movie has been removed—more on this later)</li>
+        <table>
+          <tr>
+              <th>BUSINESS LOGIC</th>
+              <th>URL</th>
+              <th>HTTP METHDOD</th>
+              <th>REQUEST BODY DATA FORMAT</th>
+              <th>RESPONSE BODY DATA FORMAT</th>
+          </tr>
+          <tr>
+              <td>Allow users to remove a movie from their list of favorites (showing only a text that a movie has been removed—more on this later)</td>
+              <td>/log_in/[userID]/movies/favoritList/[title]</td>
+              <td>DELETE</td>
+              <td>None</td>
+              <td>A text message indicating the title of the movie that was added</td>
+          </tr>
+        </table>
+
+        <li>Allow existing users to deregister (showing only a text that a user email has been removed—more on this later)</li>
+        <table>
+          <tr>
+              <th>BUSINESS LOGIC</th>
+              <th>URL</th>
+              <th>HTTP METHDOD</th>
+              <th>REQUEST BODY DATA FORMAT</th>
+              <th>RESPONSE BODY DATA FORMAT</th>
+          </tr>
+          <tr>
+              <td>Allow existing users to deregister (showing only a text that a user email has been removed—more on this later)</td>
+              <td>/deregistrate/[userID]</td>
+              <td>DELETE</td>
+              <td>None</td>
+              <td>A text message indicating whether the user was successfully removed</td>
+          </tr>
+        </table>
+      </ul>
+   </p>
   </body>
 </html>
