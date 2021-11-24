@@ -1,6 +1,7 @@
 // to require express
 const express = require("express");
 const morgan = require("morgan");
+const bodyParser = require("body-parser");
 const app = express();
 
 // Express GET route about my top 10 movies
@@ -128,6 +129,8 @@ let moviesList = [
   },
 ];
 
+let favoritList = [];
+
 // define error handling function
 let errorHandling = (req, res, next) => {
   res.status(404).send("Sorry but the requested page does not exist!");
@@ -138,6 +141,9 @@ app.use(morgan("common"));
 
 // serving static files, located in public directory
 app.use(express.static("public"));
+
+// using bodyParser
+app.use(bodyParser.json());
 
 // GET welcome message
 app.get("/", (req, res) => {
@@ -158,45 +164,85 @@ app.get("/movies/:title", (req, res) => {
   );
 });
 
-//GET data about a movie genre
-app.get("/movies/:title/genre", (req, res) => {
-  res.send("Successful GET request returning data about a movie genre");
+//GET data about a genre (description) by name/title (e.g., “Thriller”)
+app.get("/genre/:genre", (req, res) => {
+  let movieList = [];
+  moviesList.find((movie) => {
+    movie.genre.forEach((genre) => {
+      if (genre === req.params.genre) {
+        movieList.push(movie);
+        return true;
+      }
+    });
+  });
+
+  res.status(200).json(movieList);
 });
 
-//GET data about a movie director
-app.get("/movies/:title/director", (req, res) => {
-  res.send("Successful GET request returning data about a movie director");
+//GET data about a director (bio, birth year, death year) by name
+app.get("/director/:directorName", (req, res) => {
+  let director = moviesList.find((movie) => {
+    return movie.director.name === req.params.directorName;
+  });
+  if (director) {
+    res.status(200).json(director);
+  } else {
+    res.status(400).send("No director with that name is found");
+  }
 });
 
 //Create new user accourt
 app.post("/registration", (req, res) => {
-  res.send("Successful POST request create new user accourt");
+  let user = req.body;
+
+  if (user.username) {
+    res.status(200).json(user);
+  } else {
+    res
+      .status(400)
+      .send("Please make sure to have all the requested information");
+  }
 });
 
 //Allow users to update their user information
-app.put("/log_in/:userID/:userName", (req, res) => {
-  res.send(
-    "Successful PUT request allow users to update their user information"
-  );
+app.put("/users/:userID", (req, res) => {
+  res
+    .status(200)
+    .send(
+      "Successful PUT request allow users to update their user information"
+    );
 });
 
 //Allow users to add a movie to their list of favorites
-app.patch("/log_in/:userID/movies/favoritList/:title", (req, res) => {
-  res.send(
-    "Successful PATCH request Allow users to add a movie to their list of favorites"
-  );
+app.patch("/users/add/favoritList/:title", (req, res) => {
+  let addMovie = moviesList.find((movie) => {
+    return movie.title === req.params.title;
+  });
+
+  if (addMovie) {
+    favoritList.push(req.params.title);
+    res
+      .status(200)
+      .send(`${req.params.title} has been added to your favorites`);
+  } else {
+    res.status(400).send(`${req.params.title} Not Found!`);
+  }
 });
 
 //Allow users to remove a movie from their list of favorites
-app.delete("/log_in/:userID/movies/favoritList/:title", (req, res) => {
-  res.send(
-    "Successful DELETE request allow users to remove a movie from their list of favorites"
-  );
+app.delete("/users/remove/favoritList/:title", (req, res) => {
+  favoritList = favoritList.filter((name) => {
+    return name !== req.params.title;
+  });
+
+  res
+    .status(200)
+    .send(`${req.params.title} has been removed from your favorites`);
 });
 
 //Allow existing users to deregister
 app.delete("/deregistrate/:userID", (req, res) => {
-  res.send("Successful DELETE request allow existing users to deregister");
+  res.status(200).send("Your account has been deleted");
 });
 
 // error handling

@@ -83,7 +83,7 @@
           </tr>
           <tr>
               <td>Return data about a genre (description) by name/title (e.g., “Thriller”)</td>
-              <td>/movies/[title]/genre</td>
+              <td>/genre/[genre]</td>
               <td>GET</td>
               <td>None</td>
               <td>A JSON object holding data about the genre proper 
@@ -106,7 +106,7 @@
           </tr>
           <tr>
               <td>Return data about a director (bio, birth year, death year) by name</td>
-              <td>/movies/[title]/director</td>
+              <td>/director/[directorName]</td>
               <td>GET</td>
               <td>None</td>
               <td>A JSON object holding data about the director 
@@ -162,7 +162,7 @@
           </tr>
           <tr>
               <td>Allow users to update their user info (username)</td>
-              <td>/log_in/[userID]/[userName]</td>
+              <td>/users/[userID]</td>
               <td>PUT</td>
               <td>None</td>
               <td>A text message indicating the user and userName that was updated</td>
@@ -180,7 +180,7 @@
           </tr>
           <tr>
               <td>Allow users to add a movie to their list of favorites (showing only a text that a movie has been added—more on this later)</td>
-              <td>/log_in/[userID]/movies/favoritList/[title]</td>
+              <td>/users/add/favoritList/[title]</td>
               <td>PATCH</td>
               <td>None</td>
               <td>A text message indicating the title of the movie that was added</td>
@@ -198,7 +198,7 @@
           </tr>
           <tr>
               <td>Allow users to remove a movie from their list of favorites (showing only a text that a movie has been removed—more on this later)</td>
-              <td>/log_in/[userID]/movies/favoritList/[title]</td>
+              <td>/users/remove/favoritList/[title]</td>
               <td>DELETE</td>
               <td>None</td>
               <td>A text message indicating the title of the movie that was added</td>
