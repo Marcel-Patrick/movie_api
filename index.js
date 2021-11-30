@@ -7,6 +7,7 @@ const app = express();
 // Express GET route about my top 10 movies
 let moviesList = [
   {
+    ID: "",
     title: "The Shawshank Redemption",
     genre: ["Drama"],
     director: {
@@ -19,6 +20,7 @@ let moviesList = [
     released: 1994,
   },
   {
+    ID: "",
     title: "The Godfather",
     genre: ["Crime", "Drama"],
     director: {
@@ -31,6 +33,7 @@ let moviesList = [
     released: 1972,
   },
   {
+    ID: "",
     title: "The Godfather: Part II",
     genre: ["Crime", "Drama"],
     director: {
@@ -43,6 +46,7 @@ let moviesList = [
     released: 1974,
   },
   {
+    ID: "",
     title: "The Dark Knight",
     genre: ["Action", "Crime", "Drama"],
     director: {
@@ -55,6 +59,7 @@ let moviesList = [
     released: 2008,
   },
   {
+    ID: "",
     title: "12 Angry Men",
     genre: ["Crime", "Drama"],
     director: {
@@ -67,6 +72,7 @@ let moviesList = [
     released: 1957,
   },
   {
+    ID: "",
     title: "Schindler's List",
     genre: ["Biography", "Drama", "History"],
     director: {
@@ -79,6 +85,7 @@ let moviesList = [
     released: 1993,
   },
   {
+    ID: "",
     title: "The Lord of the Rings: The Return of the King",
     genre: ["Action", "Adventure", "Drama"],
     director: {
@@ -91,6 +98,7 @@ let moviesList = [
     released: 2003,
   },
   {
+    ID: "",
     title: "Pulp Fiction",
     genre: ["Crime", "Drama"],
     director: {
@@ -104,6 +112,7 @@ let moviesList = [
     released: 1994,
   },
   {
+    ID: "",
     title: "The Good, the Bad and the UglyI",
     genre: ["Adventure", "Western"],
     director: {
@@ -116,6 +125,7 @@ let moviesList = [
     released: 1966,
   },
   {
+    ID: "",
     title: "The Lord of the Rings: The Fellowship of the Ring",
     genre: ["Action", "Adventure", "Drama"],
     director: {
@@ -165,18 +175,10 @@ app.get("/movies/:title", (req, res) => {
 });
 
 //GET data about a genre (description) by name/title (e.g., “Thriller”)
-app.get("/genre/:genre", (req, res) => {
-  let movieList = [];
-  moviesList.find((movie) => {
-    movie.genre.forEach((genre) => {
-      if (genre === req.params.genre) {
-        movieList.push(movie);
-        return true;
-      }
-    });
-  });
-
-  res.status(200).json(movieList);
+app.get("/genres/:genre", (req, res) => {
+  res
+    .status(200)
+    .send("Successful GET request returning data about a movie genre");
 });
 
 //GET data about a director (bio, birth year, death year) by name
@@ -214,30 +216,21 @@ app.put("/users/:userID", (req, res) => {
 });
 
 //Allow users to add a movie to their list of favorites
-app.patch("/users/add/favoritList/:title", (req, res) => {
-  let addMovie = moviesList.find((movie) => {
-    return movie.title === req.params.title;
-  });
-
-  if (addMovie) {
-    favoritList.push(req.params.title);
-    res
-      .status(200)
-      .send(`${req.params.title} has been added to your favorites`);
-  } else {
-    res.status(400).send(`${req.params.title} Not Found!`);
-  }
+app.patch("/users/:userID/favoritList/:title", (req, res) => {
+  res
+    .status(200)
+    .send(
+      "Successful PATCH request Allow users to add a movie to their list of favorites"
+    );
 });
 
 //Allow users to remove a movie from their list of favorites
-app.delete("/users/remove/favoritList/:title", (req, res) => {
-  favoritList = favoritList.filter((name) => {
-    return name !== req.params.title;
-  });
-
+app.delete("/users/:userID/favoritList/:title", (req, res) => {
   res
     .status(200)
-    .send(`${req.params.title} has been removed from your favorites`);
+    .send(
+      "Successful DELETE request allow users to remove a movie from their list of favorites"
+    );
 });
 
 //Allow existing users to deregister

@@ -83,11 +83,10 @@
           </tr>
           <tr>
               <td>Return data about a genre (description) by name/title (e.g., “Thriller”)</td>
-              <td>/genre/[genre]</td>
+              <td>/genres/[genre]</td>
               <td>GET</td>
               <td>None</td>
-              <td>A JSON object holding data about the genre proper 
-                of the moviety.<br>
+              <td>A JSON object holding data about the genre proper of the moviety.<br>
                 Example:<br>
                 {<br>
                     genre: ["Crime", "Drama"],<br>
@@ -140,9 +139,7 @@
                 { unserName: ""Paulina Gomez"",<br>
                  password: ""123Password!"", <br>
                 }"</td>
-              <td>"A JSON object holding data about the student that was
-                added, including an ID:<br>
-                
+              <td>"A JSON object holding data about the student that was added, including an ID:<br>
                 { <br>
                 userID: 5,<br>
                 unserName: ""Paulina Gomez"",<br>
@@ -180,7 +177,7 @@
           </tr>
           <tr>
               <td>Allow users to add a movie to their list of favorites (showing only a text that a movie has been added—more on this later)</td>
-              <td>/users/add/favoritList/[title]</td>
+              <td>/users/[userID]/favoritList/[title]</td>
               <td>PATCH</td>
               <td>None</td>
               <td>A text message indicating the title of the movie that was added</td>
@@ -198,7 +195,7 @@
           </tr>
           <tr>
               <td>Allow users to remove a movie from their list of favorites (showing only a text that a movie has been removed—more on this later)</td>
-              <td>/users/remove/favoritList/[title]</td>
+              <td>/users/[userID]/favoritList/[title]</td>
               <td>DELETE</td>
               <td>None</td>
               <td>A text message indicating the title of the movie that was added</td>
