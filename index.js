@@ -103,7 +103,7 @@ let moviesList = [
     genre: ["Crime", "Drama"],
     director: {
       name: "Quentin Tarantino",
-      bio: "Quentin Jerome Tarantino was born in Knoxville, Tennessee. His father, Tony Tarantino, is an Italian-American actor and musician from New Yor",
+      bio: "Quentin Jerome Tarantino was born in Knoxville, Tennessee. His father, Tony Tarantino, is an Italian-American actor and musician from New York",
       birthYear: 1963,
       deathYear: "still alive",
     },
