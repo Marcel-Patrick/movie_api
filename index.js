@@ -4,142 +4,19 @@ const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const app = express();
 
-// Express GET route about my top 10 movies
-let moviesList = [
-  {
-    ID: "",
-    title: "The Shawshank Redemption",
-    genre: ["Drama"],
-    director: {
-      name: "Frank Darabont",
-      bio: "Frank Darabont was born in a refugee camp in 1959 in Montbeliard",
-      birthYear: 1959,
-      deathYear: "still alive",
-    },
-    imgURL: "https://www.imdb.com/title/tt0111161/mediaviewer/rm10105600/",
-    released: 1994,
-  },
-  {
-    ID: "",
-    title: "The Godfather",
-    genre: ["Crime", "Drama"],
-    director: {
-      name: "Francis Ford Coppola",
-      bio: "Francis Ford Coppola was born in 1939 in Detroit",
-      birthYear: 1939,
-      deathYear: "still alive",
-    },
-    imgURL: "https://www.imdb.com/title/tt0068646/mediaviewer/rm746868224/",
-    released: 1972,
-  },
-  {
-    ID: "",
-    title: "The Godfather: Part II",
-    genre: ["Crime", "Drama"],
-    director: {
-      name: "Francis Ford Coppola",
-      bio: "Francis Ford Coppola was born in 1939 in Detroit",
-      birthYear: 1939,
-      deathYear: "still alive",
-    },
-    imgURL: "https://www.imdb.com/title/tt0071562/mediaviewer/rm4159262464/",
-    released: 1974,
-  },
-  {
-    ID: "",
-    title: "The Dark Knight",
-    genre: ["Action", "Crime", "Drama"],
-    director: {
-      name: "Christopher Nolan",
-      bio: "Christopher Nolan was born on July 30, 1970, in London, England.",
-      birthYear: 1970,
-      deathYear: "still alive",
-    },
-    imgURL: "https://www.imdb.com/title/tt0468569/mediaviewer/rm4023877632/",
-    released: 2008,
-  },
-  {
-    ID: "",
-    title: "12 Angry Men",
-    genre: ["Crime", "Drama"],
-    director: {
-      name: "Sidney Lumet",
-      bio: "Sidney Lumet was a master of cinema, best known for his technical knowledge and his skill at getting first-rate performances from his actors.",
-      birthYear: 1924,
-      deathYear: 2011,
-    },
-    imgURL: "https://www.imdb.com/title/tt0050083/mediaviewer/rm2927108352/",
-    released: 1957,
-  },
-  {
-    ID: "",
-    title: "Schindler's List",
-    genre: ["Biography", "Drama", "History"],
-    director: {
-      name: "Steven Spielberg",
-      bio: "One of the most influential personalities in the history of cinema, Steven Spielberg is Hollywood's best known director and one of the wealthiest filmmakers in the world.",
-      birthYear: 1946,
-      deathYear: "still alive",
-    },
-    imgURL: "https://www.imdb.com/title/tt0108052/mediaviewer/rm1610023168/",
-    released: 1993,
-  },
-  {
-    ID: "",
-    title: "The Lord of the Rings: The Return of the King",
-    genre: ["Action", "Adventure", "Drama"],
-    director: {
-      name: "Peter Jackson",
-      bio: "Sir Peter Jackson made history with The Lord of the Rings trilogy, becoming the first person to direct three major feature films simultaneously.",
-      birthYear: 1961,
-      deathYear: "still alive",
-    },
-    imgURL: "https://www.imdb.com/title/tt0167260/mediaviewer/rm584928512/",
-    released: 2003,
-  },
-  {
-    ID: "",
-    title: "Pulp Fiction",
-    genre: ["Crime", "Drama"],
-    director: {
-      name: "Quentin Tarantino",
-      bio: "Quentin Jerome Tarantino was born in Knoxville, Tennessee. His father, Tony Tarantino, is an Italian-American actor and musician from New York",
-      birthYear: 1963,
-      deathYear: "still alive",
-    },
-    imgURL:
-      "https://www.imdb.com/title/tt0110912/?pf_rd_m=A2FGELUUNOQJNL&pf_rd_p=9703a62d-b88a-4e30-ae12-90fcafafa3fc&pf_rd_r=1YW6DWD4454GM2M4V7SS&pf_rd_s=center-1&pf_rd_t=15506&pf_rd_i=top&ref_=chttp_tt_8",
-    released: 1994,
-  },
-  {
-    ID: "",
-    title: "The Good, the Bad and the UglyI",
-    genre: ["Adventure", "Western"],
-    director: {
-      name: "Sergio Leone",
-      bio: "Sergio Leone was virtually born into the cinema - he was the son of Roberto Roberti (A.K.A. Vincenzo Leone), one of Italy's cinema pioneers, and actress Bice Valerian.",
-      birthYear: 1929,
-      deathYear: 1989,
-    },
-    imgURL: "https://www.imdb.com/title/tt0060196/mediaviewer/rm3188773120/",
-    released: 1966,
-  },
-  {
-    ID: "",
-    title: "The Lord of the Rings: The Fellowship of the Ring",
-    genre: ["Action", "Adventure", "Drama"],
-    director: {
-      name: "Peter Jackson",
-      bio: "Sir Peter Jackson made history with The Lord of the Rings trilogy, becoming the first person to direct three major feature films simultaneously.",
-      birthYear: 1961,
-      deathYear: "still alive",
-    },
-    imgURL: "https://www.imdb.com/title/tt0120737/mediaviewer/rm3592958976/",
-    released: 2001,
-  },
-];
+//to require mongoose
+const mongoose = require("mongoose");
+const Models = require("./models.js");
 
-let favoritList = [];
+//to get access to movies and users model
+const Movies = Models.Movie;
+const Users = Models.User;
+
+//This allows Mongoose to connect to movie_api database so it can perform CRUD operations
+mongoose.connect("mongodb://localhost:27017/movie_apiDB", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 // define error handling function
 let errorHandling = (req, res, next) => {
@@ -162,80 +39,180 @@ app.get("/", (req, res) => {
 
 //GET list of all movies
 app.get("/movies", (req, res) => {
-  res.status(200).json(moviesList);
+  Movies.find()
+    .then((movies) => {
+      res.status(201).json(movies);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
 });
 
 //GET data about a single movie
 app.get("/movies/:title", (req, res) => {
-  res.json(
-    moviesList.find((movie) => {
-      return movie.title === req.params.title;
+  Movies.findOne({ Title: req.params.title })
+    .then((movie) => {
+      res.json(movie);
     })
-  );
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
 });
 
-//GET data about a genre (description) by name/title (e.g., “Thriller”)
+//GET data about a genre (description) by name/title (e.g., “Drama”)
 app.get("/genres/:genre", (req, res) => {
-  res
-    .status(200)
-    .send("Successful GET request returning data about a movie genre");
+  Movies.find({ "Genre.Name": req.params.genre })
+    .then((genre) => {
+      res.json(genre);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
 });
 
 //GET data about a director (bio, birth year, death year) by name
 app.get("/director/:directorName", (req, res) => {
-  let director = moviesList.find((movie) => {
-    return movie.director.name === req.params.directorName;
-  });
-  if (director) {
-    res.status(200).json(director);
-  } else {
-    res.status(400).send("No director with that name is found");
-  }
+  Movies.find({ "Director.Name": req.params.directorName })
+    .then((director) => {
+      res.json(director);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
 });
 
 //Create new user accourt
 app.post("/registration", (req, res) => {
-  let user = req.body;
+  Users.findOne({ Username: req.body.username })
+    .then((user) => {
+      if (user) {
+        return res.status(400).send(req.body.username + " is already existing");
+      } else {
+        Users.create({
+          Username: req.body.username,
+          Password: req.body.Password,
+          Email: req.body.Email,
+          Birthday: req.body.Birthday,
+        })
+          .then((user) => {
+            res.status(201).json(user);
+          })
+          .catch((error) => {
+            console.error(error);
+            res.status(500).send("Error: " + error);
+          });
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).send("Error: " + error);
+    });
+});
 
-  if (user.username) {
-    res.status(200).json(user);
-  } else {
-    res
-      .status(400)
-      .send("Please make sure to have all the requested information");
-  }
+// Get all users
+app.get("/users", (req, res) => {
+  Users.find()
+    .then((users) => {
+      res.status(201).json(users);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
+});
+
+// Get a user by username
+app.get("/users/:username", (req, res) => {
+  Users.findOne({ Username: req.params.username })
+    .then((user) => {
+      res.json(user);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
 });
 
 //Allow users to update their user information
-app.put("/users/:userID", (req, res) => {
-  res
-    .status(200)
-    .send(
-      "Successful PUT request allow users to update their user information"
-    );
+app.put("/users/:username", (req, res) => {
+  Users.findOneAndUpdate(
+    { Username: req.params.username },
+    {
+      $set: {
+        Username: req.body.username,
+        Password: req.body.Password,
+        Email: req.body.Email,
+        Birthday: req.body.Birthday,
+      },
+    },
+    { new: true }, // This line makes sure that the updated document is returned
+    (err, updatedUser) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send("Error: " + err);
+      } else {
+        res.json(updatedUser);
+      }
+    }
+  );
 });
 
 //Allow users to add a movie to their list of favorites
-app.patch("/users/:userID/favoritList/:title", (req, res) => {
-  res
-    .status(200)
-    .send(
-      "Successful PATCH request Allow users to add a movie to their list of favorites"
-    );
+app.post("/users/:username/FavoriteMovies/:movieID", (req, res) => {
+  Users.findOneAndUpdate(
+    { Username: req.params.username },
+    {
+      $push: { FavoriteMovies: req.params.movieID },
+    },
+    { new: true }, // This line makes sure that the updated document is returned
+    (err, updatedUser) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send("Error: " + err);
+      } else {
+        res.json(updatedUser);
+      }
+    }
+  );
 });
 
 //Allow users to remove a movie from their list of favorites
-app.delete("/users/:userID/favoritList/:title", (req, res) => {
-  res
-    .status(200)
-    .send(
-      "Successful DELETE request allow users to remove a movie from their list of favorites"
-    );
+app.delete("/users/:username/FavoriteMovies/:movieID", (req, res) => {
+  Users.findOneAndUpdate(
+    { Username: req.params.username },
+    {
+      $pull: { FavoriteMovies: req.params.movieID },
+    },
+    { new: true }, // This line makes sure that the updated document is returned
+    (err, updatedUser) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send("Error: " + err);
+      } else {
+        res.json(updatedUser);
+      }
+    }
+  );
 });
 
 //Allow existing users to deregister
-app.delete("/deregistrate/:userID", (req, res) => {
-  res.status(200).send("Your account has been deleted");
+app.delete("/deregistrate/:username", (req, res) => {
+  Users.findOneAndRemove({ Username: req.params.username })
+    .then((user) => {
+      if (!user) {
+        res.status(400).send(req.params.username + " does not exist");
+      } else {
+        res.status(200).send(req.params.username + " successfully deleted.");
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error: " + err);
+    });
 });
 
 // error handling
