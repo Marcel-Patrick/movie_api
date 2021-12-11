@@ -63,9 +63,9 @@ app.get("/movies/:title", (req, res) => {
 
 //GET data about a genre (description) by name/title (e.g., “Drama”)
 app.get("/genres/:genre", (req, res) => {
-  Movies.find({ "Genre.Name": req.params.genre })
-    .then((genre) => {
-      res.json(genre);
+  Movies.findOne({ "Genre.Name": req.params.genre })
+    .then((movie) => {
+      res.json(movie.Genre);
     })
     .catch((err) => {
       console.error(err);
@@ -75,9 +75,9 @@ app.get("/genres/:genre", (req, res) => {
 
 //GET data about a director (bio, birth year, death year) by name
 app.get("/director/:directorName", (req, res) => {
-  Movies.find({ "Director.Name": req.params.directorName })
-    .then((director) => {
-      res.json(director);
+  Movies.findOne({ "Director.Name": req.params.directorName })
+    .then((movie) => {
+      res.json(movie.Director);
     })
     .catch((err) => {
       console.error(err);
@@ -87,13 +87,13 @@ app.get("/director/:directorName", (req, res) => {
 
 //Create new user accourt
 app.post("/registration", (req, res) => {
-  Users.findOne({ Username: req.body.username })
+  Users.findOne({ Username: req.body.Username })
     .then((user) => {
       if (user) {
-        return res.status(400).send(req.body.username + " is already existing");
+        return res.status(400).send(req.body.Username + " is already existing");
       } else {
         Users.create({
-          Username: req.body.username,
+          Username: req.body.Username,
           Password: req.body.Password,
           Email: req.body.Email,
           Birthday: req.body.Birthday,
