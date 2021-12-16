@@ -14,8 +14,14 @@ const Models = require("./models.js");
 const Movies = Models.Movie;
 const Users = Models.User;
 
-//This allows Mongoose to connect to movie_api database so it can perform CRUD operations
-mongoose.connect("mongodb://localhost:27017/movie_apiDB", {
+//This allows Mongoose to connect to movie_api database LOCALLY so it can perform CRUD operations
+/*mongoose.connect("mongodb://localhost:27017/movie_apiDB", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});*/
+
+//This allows Mongoose to connect to movie_api database REMOTELY so it can perform CRUD operations
+mongoose.connect(process.env.CONNECTION_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
