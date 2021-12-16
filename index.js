@@ -47,7 +47,7 @@ require("./passport.js");
 
 // GET welcome message
 app.get("/", (req, res) => {
-  res.send("Welcome to your Movies APP!");
+  res.send("Welcome to your Movies APP :)");
 });
 
 // GET list of all movies
