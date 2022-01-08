@@ -3,7 +3,6 @@ const express = require("express");
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const app = express();
-const cors = require("cors");
 const { check, validationResult } = require("express-validator");
 
 //to require mongoose
@@ -42,9 +41,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // using CORS and allowing all domains to make requests
-//app.use(cors());
+const cors = require("cors");
 
-let allowedOrigins = ['http://localhost:8080', 'http://localhost:1234','https://fathomless-plains-90381.herokuapp.com'];
+app.use(cors());
+
+/*let allowedOrigins = ['http://localhost:8080', 'http://localhost:1234','https://fathomless-plains-90381.herokuapp.com'];
 
 app.use(cors({
   origin: (origin, callback) => {
@@ -55,7 +56,7 @@ app.use(cors({
     }
     return callback(null, true);
   }
-}));
+}));*/
 // using auth.js
 let auth = require("./auth.js")(app);
 
