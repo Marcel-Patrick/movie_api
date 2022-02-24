@@ -7,6 +7,13 @@ let Users = Models.User,
   JWTStrategy = passportJWT.Strategy,
   ExtractJWT = passportJWT.ExtractJwt;
 
+/**
+ * @description Middleware logic for checking login credentials for a user. <br>
+ * This is called when a user logs in.<br>
+ * First ensures the user exists, then checks that the password is correct.
+ * @method loginStrategy
+ * @returns {boolean} Returns true if credentials are valid, false otherwise
+ */
 passport.use(
   new LocalStrategy(
     {
@@ -40,6 +47,13 @@ passport.use(
   )
 );
 
+/**
+ * @description Middleware logic for checking JWT for a user. <br>
+ * This is called when a accesses any protected endpoints.<br>
+ * Decodes the JWT and then checks to see if the encoded username exists on the server
+ * @method jwtStrategy
+ * @returns {boolean} Returns true if JWT is valid, false otherwise
+ */
 passport.use(
   new JWTStrategy(
     {

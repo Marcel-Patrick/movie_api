@@ -5,6 +5,12 @@ const jwt = require("jsonwebtoken"),
 
 require("./passport.js"); // Your local passport file
 
+/**
+ * @description Generates a JWT for a user and returns the token as a string
+ * @method generateJWTToken
+ * @param {object} user Object containing all of the user's data
+ * @returns {string} - JWT for the logged in user
+ */
 let generateJWTToken = (user) => {
   return jwt.sign(user, jwtSecret, {
     subject: user.Username, // This is the username you’re encoding in the JWT
@@ -13,7 +19,23 @@ let generateJWTToken = (user) => {
   });
 };
 
-/* After login. */
+/**
+ * After login.
+ *  @description Endpoint to login the user<br>
+ * @method POSTLoginUser
+ * @param {string} endpoint - /login?Username=[Username]&Password=[Password]
+ * @returns {object} - JSON object containing data for the user and a new JWT.
+ * { user: {
+ *   _id: <string>,
+ *   Username: <string>,
+ *   Password: <string> (hashed),
+ *   Email: <string>,
+ *   Birthday: <string>,
+ *   FavoriteMovies: [<string>]
+ *   },
+ *   token: <string>
+ * }
+ */
 module.exports = (router) => {
   //You need to initiate passport middleware before the routes registration. From version 0.5.0 you have to add following lines for express!!
   router.use(passport.initialize()); //<--
