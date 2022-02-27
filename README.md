@@ -209,3 +209,11 @@ _These are optional features. You can incorporate these into your project throug
       _Once you’ve replaced these elements, you can run the finalized command in the terminal to import the data into the new database on the remote cluster_
 
 22. Connecting Database to our API on Heroku:<br/>
+    Follow the steps explained on Heroku page.
+
+---
+
+## Postman Test:
+
+A screenshot of a postman test to proove the functionality of the API and database:
+![screenshot](.\img\Screenshot_MovieAPI.png)
