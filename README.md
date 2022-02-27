@@ -216,4 +216,4 @@ _These are optional features. You can incorporate these into your project throug
 ## Postman Test:
 
 A screenshot of a postman test to proove the functionality of the API and database:
-![screenshot](.\img\Screenshot_MovieAPI.png)
+![screenshot](./img/Screenshot_MovieAPI.png)
