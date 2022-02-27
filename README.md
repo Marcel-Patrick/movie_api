@@ -217,3 +217,16 @@ _These are optional features. You can incorporate these into your project throug
 
 A screenshot of a postman test to proove the functionality of the API and database:
 ![screenshot](./img/Screenshot_MovieAPI.png)
+
+API endpoints/Links:
+
+- Anonymus can register:
+
+  - https://fathomless-plains-90381.herokuapp.com/registration
+
+- User finds his Account details and can update his Data:
+
+  - https://fathomless-plains-90381.herokuapp.com/users/[Username]
+
+- User can delete his Account:
+  - https://fathomless-plains-90381.herokuapp.com/deregistrate/[Username]
